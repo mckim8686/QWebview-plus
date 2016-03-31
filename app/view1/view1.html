@@ -32,17 +32,17 @@
             <div class="col-sm-12">
               <div class="input-group">
                 <span class="input-group-addon">기준가격</span>
-                <input type="number" placeholder="가격" class="form-control">
+                <input type="number" ng-model="model.midPrice" placeholder="가격" class="form-control">
                 <span class="input-group-addon">원</span>
               </div>
               <div class="input-group">
                 <span class="input-group-addon">가격범위</span>
-                <input type="number" placeholder="폭" class="form-control">
+                <input type="number" ng-model="model.margin" placeholder="폭" class="form-control">
                 <span class="input-group-addon">%</span>
               </div>
               <div class="input-group">
                 <span class="input-group-addon">주문량</span>
-                <input type="number" placeholder="주문량" class="form-control">
+                <input type="number" ng-model="model.amounts" placeholder="주문량" class="form-control">
                 <span class="input-group-addon">주</span>
               </div>
             </div>
@@ -55,6 +55,7 @@
     </div>
   </div>
 
+  <div style="height:100px;"></div>
 </article>
 
 <aside>
@@ -72,4 +73,19 @@
       </div>
     </div>
   </form>
+</aside>
+
+<aside>
+  <h3>계좌 정보</h3>
+  <div class="radio" ng-repeat="acc in accounts">
+    <label>
+      <input type="radio" name="optionsAccounts" id="optionsAccounts"
+             ng-model="model.selectedAccount" ng-value="acc">
+      {{acc}}
+    </label>
+  </div>
+</aside>
+
+<aside>
+  <h3>체결 정보</h3>
 </aside>
