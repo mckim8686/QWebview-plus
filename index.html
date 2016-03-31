@@ -50,10 +50,6 @@ document.addEventListener("receiveTrData.kiwoom", function(e) {
         case "opt10001" :
             for(var i=0; i<len; i++) {
                 console.log("TR 데이터",{
-                    // "종목명" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "종목명"),
-                    // "시가총액" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "시가총액"),
-                    // "거래량" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "거래량"),
-                    // "현재가" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "현재가")
                     "종목명" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "종목명"),
                     "시가총액" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "시가총액"),
                     "거래량" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "거래량"),

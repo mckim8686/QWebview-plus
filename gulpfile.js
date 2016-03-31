@@ -9,6 +9,10 @@ var run = require('gulp-run'),
 
 gulp.task('default', ['pages', 'server', 'watch']);
 
+gulp.task('run', function(){
+  run('python wnd.py ./app/index-comp.html').exec();
+});
+
 gulp.task('pages', function(){
   return gulp.src('app/index.html')
     .pipe(injectReload())
@@ -19,7 +23,7 @@ gulp.task('pages', function(){
 
 gulp.task('server', function() {
   //var server = child.spawn('npm',['start']);
-  var server = run('npm start').exec(function(e){
+  var server = run('python wnd.py ./app/index-comp.html').exec(function(e){
     gulp.start('server');
   });
 });

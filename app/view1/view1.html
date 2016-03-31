@@ -1,9 +1,75 @@
 <article>
+  <div class="panel panel-orange">
+    <div class="panel-heading">
+      종목 정보
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="input-group">
+            <span class="input-group-addon" id="name-addon">종목명</span>
+
+            <div class="form-control" aria-describedby="name-addon">
+              {{item.name}}
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"
+                  ng-class="{'input-group-addon-plus':item.sign=='+', 'input-group-addon-minus':item.sign=='-'}"
+                  id="current-addon">
+              현재가
+            </span>
+            <div class="form-control" aria-describedby="current-addon">
+              {{item.current}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height:5px"></div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="input-group">
+                <span class="input-group-addon">기준가격</span>
+                <input type="number" placeholder="가격" class="form-control">
+                <span class="input-group-addon">원</span>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">가격범위</span>
+                <input type="number" placeholder="폭" class="form-control">
+                <span class="input-group-addon">%</span>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">주문량</span>
+                <input type="number" placeholder="주문량" class="form-control">
+                <span class="input-group-addon">주</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="btn btn-block btn-primary btn-full-height" ng-click="order()">주문</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </article>
 
 <aside>
-  <h3>검색</h3>
-  <div>
-    종목 : <input type="text" ng-model="code">
-  </div>
+  <h3>종목 검색</h3>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input type="text" class="form-control" ng-model="code" placeholder="종목코드">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <button class="btn btn-block btn-primary" ng-click="search()">검색</button>
+      </div>
+    </div>
+  </form>
 </aside>

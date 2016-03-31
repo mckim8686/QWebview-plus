@@ -1,3 +1,13 @@
+body {
+    font-family: sans-serif;
+}
+/*
+* {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+*/
 .wrapper {
     width: 90%;
     margin: 0 5%;
@@ -158,12 +168,12 @@ nav a:hover {
        ============ */
     .main article {
         float: left;
-        width: 57%;
+        width: 65%;
     }
 
     .main aside {
         float: right;
-        width: 20%;
+        width: 30%;
     }
 }
 
@@ -176,4 +186,53 @@ nav a:hover {
         width: 1026px; /* 1140px - 10% for margins */
         margin: 0 auto;
     }
+}
+
+
+.panel-orange {
+    border-color:#f16529;
+}
+
+.panel-orange > .panel-heading {
+    color:white;
+    background-color:#f16529;
+}
+
+.input-group-addon-minus {
+    background-color:#0777cb;
+    color:white;
+}
+
+.input-group-addon-plus {
+    background-color:#d62859;
+    color:white;
+}
+
+.input-group {
+    margin-bottom: 5px;
+}
+
+.input-group:last-child {
+    margin-bottom: 0;
+}
+
+.btn-full-height {
+    min-height: 100% !important;
+    height:100% !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    flex-wrap: wrap;
+}
+.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group .form-control:not(:first-child):not(:last-child), .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child) {
+    padding-right: 0;
 }
