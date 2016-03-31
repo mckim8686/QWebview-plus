@@ -14,7 +14,7 @@ class Window(QWidget):
 
         self.view = KiwoomWebViewPlus()
         self.splitter = QSplitter(self)
-        self.splitter.setOrientation(Qt.Vertical)
+        self.splitter.setOrientation(Qt.Horizontal)
         layout = QVBoxLayout(self)
         layout.setMargin(0)
         layout.addWidget(self.splitter)
