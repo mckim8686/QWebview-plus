@@ -1,110 +1,116 @@
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
-<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-<script>
-Date.prototype.yyyymmdd = function()
-{
-    var yyyy = this.getFullYear().toString();
-    var mm = (this.getMonth() + 1).toString();
-    var dd = this.getDate().toString();
-    return yyyy + (mm[1] ? mm : '0'+mm[0]) + (dd[1] ? dd : '0'+dd[0]);
-}
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+  <script src="https://code.jquery.com/jquery-2.2.2.min.js"
+          integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+  <script>
+    Date.prototype.yyyymmdd = function () {
+      var yyyy = this.getFullYear().toString();
+      var mm = (this.getMonth() + 1).toString();
+      var dd = this.getDate().toString();
+      return yyyy + (mm[1] ? mm : '0' + mm[0]) + (dd[1] ? dd : '0' + dd[0]);
+    }
+  </script>
 </head>
 <body>
 <div>
-    <label>종목코드</label><input type="text" id="stockcode" value="003000" />
-    <button id="search">종목 검색</button>
-    <button id="chart">차트 데이터 검색</button>
+  <label>종목코드</label><input type="text" id="stockcode" value="003000"/>
+  <button id="search">종목 검색</button>
+  <button id="chart">차트 데이터 검색</button>
 </div>
 <script>
-var $code = $("#stockcode");
-document.addEventListener("eventConnect.kiwoom", function(e) {
+  var $code = $("#stockcode");
+  document.addEventListener("eventConnect.kiwoom", function (e) {
     var errcode = e.detail;
-    if(errcode == 0) {
-        console.info("로그인 완료");
-        console.log(kiwoom.getLoginInfo("ACCNO").replace(/;$/,"").split(";"));
+    if (errcode == 0) {
+      console.info("로그인 완료");
+      console.log(kiwoom.getLoginInfo("ACCNO").replace(/;$/, "").split(";"));
     } else {
-        console.error(kiwoom.parseErrorCode(errcode));
+      console.error(kiwoom.parseErrorCode(errcode));
     }
-});
+  });
 
-document.addEventListener("receiveMsg.kiwoom", function(e) {
+  document.addEventListener("receiveMsg.kiwoom", function (e) {
     var data = e.detail;
     console.info({
-        "scrNo" : data.scrNo,
-        "rQName" : data.rQName,
-        "trCode": data.trCode,
-        "msg" : data.msg
+      "scrNo": data.scrNo,
+      "rQName": data.rQName,
+      "trCode": data.trCode,
+      "msg": data.msg
     });
-});
+  });
 
-document.addEventListener("receiveTrData.kiwoom", function(e) {
+  document.addEventListener("receiveTrData.kiwoom", function (e) {
     var data = e.detail;
     var len = kiwoom.getRepeatCnt(data.trCode, data.rQName);
-    console.info( data.rQName, data.trCode, len );
+    console.info(data.rQName, data.trCode, len);
 
-    switch(data.trCode) {
-        case "opt10001" :
-            for(var i=0; i<len; i++) {
-                console.log("TR 데이터",{
-                    "종목명" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "종목명"),
-                    "시가총액" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "시가총액"),
-                    "거래량" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "거래량"),
-                    "현재가" : kiwoom.plusGetTrData(data.trCode, data.rQName, i, "현재가")
-                });
-            }
-            break;
-        case "opt10081" :
-            console.log("TR 데이터", JSON.parse(kiwoom.getCommDataEx(data.trCode, data.rQName)));
-            break;
+    switch (data.trCode) {
+      case "opt10001" :
+        for (var i = 0; i < len; i++) {
+          console.log("TR 데이터", {
+            "종목명": kiwoom.plusGetTrData(data.trCode, data.rQName, i, "종목명"),
+            "시가총액": kiwoom.plusGetTrData(data.trCode, data.rQName, i, "시가총액"),
+            "거래량": kiwoom.plusGetTrData(data.trCode, data.rQName, i, "거래량"),
+            "현재가": kiwoom.plusGetTrData(data.trCode, data.rQName, i, "현재가")
+          });
+        }
+        break;
+      case "opt10081" :
+        console.log("TR 데이터", JSON.parse(kiwoom.getCommDataEx(data.trCode, data.rQName)));
+        break;
     }
-});
+  });
 
-document.addEventListener("receiveRealData.kiwoom", function(e) {
+  document.addEventListener("receiveRealData.kiwoom", function (e) {
     var data = e.detail;
-    console.info("실시간데이터", {
-        "jongmokCode" : data.jongmokCode,
-        "realType" : data.realType,
+    console.log(data.realType == '주식체결');
+    if (data.realType == '주식체결' || data.realType == '종목프로그램매매') {
+
+    } else {
+      console.info("실시간데이터", {
+        "jongmokCode": data.jongmokCode,
+        "realType": data.realType,
         "realData": data.realData
-    });
-    console.log(kiwoom.plusGetRealData(data.jongmokCode, data.realType, 10));
-});
-
-$("#search").click(function(e) {
-    var status = kiwoom.getConnectState();
-    if(status == 0) {
-        kiwoom.commConnect();
-    } else if(status == 1) {
-        search();
+      });
+      console.log(kiwoom.plusGetRealData(data.jongmokCode, data.realType, 10));
     }
-});
+  });
 
-$("#chart").click(function(e) {
+  $("#search").click(function (e) {
     var status = kiwoom.getConnectState();
-    if(status == 0) {
-        kiwoom.commConnect();
-    } else if(status == 1) {
-        chart();
+    if (status == 0) {
+      kiwoom.commConnect();
+    } else if (status == 1) {
+      search();
     }
-});
+  });
 
-// 종목 TR 검색
-function search() {
+  $("#chart").click(function (e) {
+    var status = kiwoom.getConnectState();
+    if (status == 0) {
+      kiwoom.commConnect();
+    } else if (status == 1) {
+      chart();
+    }
+  });
+
+  // 종목 TR 검색
+  function search() {
     kiwoom.setInputValue("종목코드", $code.val());
     // rQName과 화면번호는 사용자가 지정하여 구분하는 값
     kiwoom.commRqData("주식기본정보", "opt10001", 0, "0001");
-}
+  }
 
-function chart() {
+  function chart() {
     kiwoom.setInputValue("종목코드", $code.val());
     kiwoom.setInputValue("기준일자", (new Date()).yyyymmdd());
     kiwoom.setInputValue("수정주가구분 ", 0);
     // rQName과 화면번호는 사용자가 지정하여 구분하는 값
     kiwoom.commRqData("주식일봉차트조회요청", "opt10081", 0, "0002");
-}
+  }
 </script>
 
 </body>

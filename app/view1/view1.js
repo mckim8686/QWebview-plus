@@ -33,8 +33,6 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
     var errorHandler = function (err) {
-      console.info('errorHandler');
-      console.info(err);
       switch (err) {
         case 0:
           console.log('정상처리');
@@ -92,14 +90,13 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.order = function () {
       var err = kiwoom.sendOrder('RQ_1', '0101', $scope.model.selectedAccount, 1, $scope.code,
         $scope.model.amounts, $scope.model.midPrice, '00', '');
+      console.log($scope.model);
       errorHandler(err);
     };
 
     $document.on('receiveTrData.kiwoom', function (e) {
       var data = e.detail;
       var len = kiwoom.getRepeatCnt(data.trCode, data.rQName);
-      console.info('receiveTrData.kiwoom');
-      console.info(data);
 
       switch (data.trCode) {
         case "opt10001":
@@ -119,7 +116,7 @@ angular.module('myApp.view1', ['ngRoute'])
           $scope.model.midPrice = current;
           break;
         default:
-          console.log('unknown tr code');
+          console.log('unknown tr code' + data.trCode);
           break;
       }
       $scope.$apply();
@@ -131,8 +128,17 @@ angular.module('myApp.view1', ['ngRoute'])
     });
 
     $document.on('receiveRealData.kiwoom', function(e){
-      console.info('receiveRealData.kiwoom');
-      console.info(e);
+      var data = e.detail;
+      if (data.realType == '주식체결' || data.realType == '종목프로그램매매') {
+
+      } else {
+        console.info("실시간데이터", {
+          "jongmokCode": data.jongmokCode,
+          "realType": data.realType,
+          "realData": data.realData
+        });
+        console.log(kiwoom.plusGetRealData(data.jongmokCode, data.realType, 10));
+      }
     });
 
     $document.on('receiveChejanData.kiwoom', function(e){

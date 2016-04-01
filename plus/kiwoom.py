@@ -1,4 +1,5 @@
 #-*-coding: utf-8 -*-
+import logging
 from PyQt4.QtCore import SIGNAL, QObject, pyqtSlot
 from PyQt4.QAxContainer import QAxWidget
 from PyQt4.QtGui import QApplication
@@ -234,7 +235,8 @@ class Kiwoom(QObject):
 	# sOrgOrderNo – 원주문번호
 	@pyqtSlot(str, str, str, int, str, int, int, str, str, result=int)
 	def sendOrder(self, rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo ):
-		return self.ocx.dynamicCall("SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)", rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo)
+		variables = [rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo]
+		return self.ocx.dynamicCall("SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)", variables)
 
 	# 체결잔고 데이터를 반환한다.
 	@pyqtSlot(int, result=str)

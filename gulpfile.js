@@ -25,7 +25,7 @@ gulp.task('server', function() {
   //var server = child.spawn('npm',['start']);
   var server = run('python wnd.py ./app/index-comp.html').exec(function(e){
     gulp.start('server');
-  });
+  }).pipe(gulp.dest('log/'));
 });
 
 gulp.task('watch', function(){
