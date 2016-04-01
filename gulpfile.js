@@ -10,7 +10,7 @@ var run = require('gulp-run'),
 gulp.task('default', ['pages', 'server', 'watch']);
 
 gulp.task('run', function(){
-  run('python wnd.py ./app/index-comp.html').exec();
+  run('python wnd.py ./app/index.html').exec();
 });
 
 gulp.task('pages', function(){
